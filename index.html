@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PropNest Realty – Buy, Sell & Rent Properties</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #2d3748; }
+
+    nav {
+      background: #1a202c;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 60px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #f6e05e; }
+    .logo span { color: #fff; }
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav ul a { text-decoration: none; color: #e2e8f0; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: #f6e05e; }
+    .btn-nav { background: #d69e2e; color: #1a202c !important; padding: 10px 22px; border-radius: 6px; font-weight: 700; }
+    .btn-nav:hover { background: #f6e05e !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(rgba(26,32,44,.72), rgba(26,32,44,.72)),
+        url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1400') center/cover no-repeat;
+      min-height: 88vh;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 60px;
+      color: #fff;
+    }
+    .hero h1 { font-size: 3.2rem; line-height: 1.2; margin-bottom: 18px; }
+    .hero h1 span { color: #f6e05e; }
+    .hero p { font-size: 1.15rem; opacity: .85; max-width: 580px; margin: 0 auto 36px; line-height: 1.7; }
+    .search-bar { display: flex; gap: 0; border-radius: 10px; overflow: hidden; max-width: 620px; margin: 0 auto; }
+    .search-bar input { flex: 1; padding: 16px 20px; border: none; font-size: 1rem; }
+    .search-bar select { padding: 16px 14px; border: none; background: #f0f0f0; font-size: .95rem; }
+    .search-bar button { background: #d69e2e; color: #fff; border: none; padding: 16px 28px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .search-bar button:hover { background: #b7791f; }
+
+    /* STATS */
+    .stats { display: flex; justify-content: center; gap: 60px; background: #d69e2e; padding: 40px 60px; }
+    .stat { text-align: center; color: #1a202c; }
+    .stat h2 { font-size: 2.4rem; font-weight: 800; }
+    .stat p { font-size: .9rem; margin-top: 4px; font-weight: 600; }
+
+    /* LISTINGS */
+    .section { padding: 80px 60px; }
+    .section-title { font-size: 2rem; color: #1a202c; margin-bottom: 8px; }
+    .section-sub { color: #718096; margin-bottom: 40px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 36px; }
+    .tab { padding: 10px 24px; border-radius: 30px; border: 2px solid #d69e2e; background: transparent; color: #d69e2e; font-weight: 600; cursor: pointer; transition: .2s; }
+    .tab.active, .tab:hover { background: #d69e2e; color: #fff; }
+    .listings { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; }
+    .listing-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); transition: transform .2s; }
+    .listing-card:hover { transform: translateY(-6px); }
+    .card-img { background: #e2e8f0; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
+    .badge { position: absolute; top: 14px; left: 14px; background: #d69e2e; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: .8rem; font-weight: 700; }
+    .card-body { padding: 22px; }
+    .price { font-size: 1.5rem; font-weight: 800; color: #1a202c; }
+    .price sup { font-size: 1rem; }
+    .card-title { font-size: 1.05rem; color: #2d3748; margin: 6px 0; }
+    .card-loc { color: #718096; font-size: .9rem; margin-bottom: 14px; }
+    .amenities { display: flex; gap: 16px; font-size: .88rem; color: #4a5568; border-top: 1px solid #e2e8f0; padding-top: 14px; }
+
+    /* SERVICES */
+    .services { background: #1a202c; padding: 80px 60px; }
+    .services .section-title { color: #fff; }
+    .services .section-sub { color: #a0aec0; }
+    .scard { background: #2d3748; border-radius: 12px; padding: 36px 28px; text-align: center; color: #fff; transition: transform .2s; }
+    .scard:hover { transform: translateY(-6px); }
+    .scard-icon { font-size: 2.8rem; margin-bottom: 16px; }
+    .scard h3 { font-size: 1.15rem; margin-bottom: 10px; color: #f6e05e; }
+    .scard p { color: #a0aec0; font-size: .9rem; line-height: 1.6; }
+
+    /* ABOUT */
+    .about { display: flex; align-items: center; gap: 60px; padding: 80px 60px; background: #fffbeb; }
+    .about-icon { font-size: 9rem; flex-shrink: 0; }
+    .about h2 { font-size: 2rem; color: #1a202c; margin-bottom: 16px; }
+    .about p { color: #4a5568; line-height: 1.8; margin-bottom: 14px; }
+    .btn { display: inline-block; background: #d69e2e; color: #fff; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background .2s; }
+    .btn:hover { background: #b7791f; }
+
+    /* CONTACT */
+    .contact { background: #1a202c; color: #fff; padding: 80px 60px; text-align: center; }
+    .contact h2 { font-size: 2.2rem; margin-bottom: 12px; }
+    .contact p { color: #a0aec0; margin-bottom: 36px; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px; max-width: 900px; margin: 0 auto 40px; }
+    .cinfo { background: #2d3748; border-radius: 10px; padding: 28px; }
+    .cinfo-icon { font-size: 2rem; margin-bottom: 12px; }
+    .cinfo h4 { color: #f6e05e; margin-bottom: 6px; }
+    .cinfo p { color: #a0aec0; font-size: .9rem; }
+    form.contact-form { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 700px; margin: 0 auto; }
+    form.contact-form input, form.contact-form select, form.contact-form textarea { padding: 12px 18px; border-radius: 8px; border: none; font-size: 1rem; flex: 1 1 200px; background: #2d3748; color: #fff; }
+    form.contact-form textarea { flex: 1 1 100%; min-height: 100px; resize: vertical; }
+    form.contact-form button { background: #d69e2e; color: #fff; border: none; padding: 14px 36px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+
+    footer { background: #0d1117; color: #718096; text-align: center; padding: 24px 60px; font-size: .9rem; }
+    footer span { color: #f6e05e; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Prop<span>Nest</span></div>
+  <ul>
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="btn-nav">Contact Us</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Find Your <span>Dream Home</span><br>With PropNest Realty</h1>
+    <p>Over 5,000 verified listings across Delhi-NCR. Buy, sell, or rent residential and commercial properties with complete peace of mind.</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Search by locality, city, or project…" />
+      <select><option>Buy</option><option>Rent</option><option>Commercial</option></select>
+      <button>Search</button>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><h2>5,200+</h2><p>Listings Available</p></div>
+  <div class="stat"><h2>3,800+</h2><p>Happy Clients</p></div>
+  <div class="stat"><h2>18</h2><p>Years in Business</p></div>
+  <div class="stat"><h2>₹2,400 Cr</h2><p>Worth Deals Closed</p></div>
+</div>
+
+<section class="section" id="listings">
+  <h2 class="section-title">Featured Properties</h2>
+  <p class="section-sub">Handpicked properties across the city</p>
+  <div class="tabs">
+    <button class="tab active">All</button>
+    <button class="tab">Residential</button>
+    <button class="tab">Commercial</button>
+    <button class="tab">Plots</button>
+  </div>
+  <div class="listings">
+    <div class="listing-card">
+      <div class="card-img">🏠<span class="badge">For Sale</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>1.25 Cr</div>
+        <div class="card-title">3 BHK Luxury Apartment</div>
+        <div class="card-loc">📍 Dwarka Sector 12, New Delhi</div>
+        <div class="amenities"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1450 sqft</span></div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="card-img">🏢<span class="badge">For Rent</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>45,000<small>/mo</small></div>
+        <div class="card-title">Premium Office Space</div>
+        <div class="card-loc">📍 Cyber City, Gurugram</div>
+        <div class="amenities"><span>🖥 Open Plan</span><span>🚗 Parking</span><span>📐 2200 sqft</span></div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="card-img">🏡<span class="badge">For Sale</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>2.80 Cr</div>
+        <div class="card-title">4 BHK Independent Villa</div>
+        <div class="card-loc">📍 Noida Extension, UP</div>
+        <div class="amenities"><span>🛏 4 Beds</span><span>🚿 3 Baths</span><span>📐 3200 sqft</span></div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="card-img">🏗️<span class="badge">Plot</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>85 L</div>
+        <div class="card-title">Residential Plot – DDJAY</div>
+        <div class="card-loc">📍 Sector 95, Gurugram</div>
+        <div class="amenities"><span>📐 200 sqyd</span><span>✅ RERA Approved</span></div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="card-img">🏬<span class="badge">For Rent</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>28,000<small>/mo</small></div>
+        <div class="card-title">2 BHK Builder Floor</div>
+        <div class="card-loc">📍 Lajpat Nagar, Delhi</div>
+        <div class="amenities"><span>🛏 2 Beds</span><span>🚿 2 Baths</span><span>📐 900 sqft</span></div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="card-img">🏪<span class="badge">Commercial</span></div>
+      <div class="card-body">
+        <div class="price"><sup>₹</sup>95 L</div>
+        <div class="card-title">Retail Shop – High Street</div>
+        <div class="card-loc">📍 Connaught Place, Delhi</div>
+        <div class="amenities"><span>📐 450 sqft</span><span>🚗 2 Parking</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <h2 class="section-title">Our Services</h2>
+  <p class="section-sub">End-to-end real estate solutions</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:40px">
+    <div class="scard"><div class="scard-icon">🏠</div><h3>Buy Property</h3><p>Find verified residential and commercial listings with transparent pricing and legal checks.</p></div>
+    <div class="scard"><div class="scard-icon">🔑</div><h3>Sell Property</h3><p>List your property with us and reach thousands of serious buyers within days.</p></div>
+    <div class="scard"><div class="scard-icon">📋</div><h3>Rental Management</h3><p>Hassle-free tenant sourcing, agreement drafting, and rent collection services.</p></div>
+    <div class="scard"><div class="scard-icon">⚖️</div><h3>Legal Assistance</h3><p>Complete title verification, stamp duty guidance, and registration support.</p></div>
+    <div class="scard"><div class="scard-icon">💰</div><h3>Home Loans</h3><p>Partner bank tie-ups for best interest rates and fast loan approvals.</p></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-icon">🤝</div>
+  <div>
+    <h2>Why Choose PropNest Realty?</h2>
+    <p>Founded in 2008, PropNest is Delhi-NCR's most trusted real estate consultancy. Our team of 120+ certified agents has helped 3,800+ families and businesses find their perfect space.</p>
+    <p>We operate with full transparency — every listing is RERA-verified, every transaction is documented, and every client gets a dedicated relationship manager.</p>
+    <a href="#contact" class="btn">Talk to an Expert</a>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Get in Touch</h2>
+  <p>Our property experts are ready to guide you</p>
+  <div class="contact-grid">
+    <div class="cinfo"><div class="cinfo-icon">📍</div><h4>Office</h4><p>14, Community Centre, Saket, New Delhi – 110017</p></div>
+    <div class="cinfo"><div class="cinfo-icon">📞</div><h4>Phone</h4><p>+91 98100 55555<br>+91 11 4567 8901</p></div>
+    <div class="cinfo"><div class="cinfo-icon">✉️</div><h4>Email</h4><p>info@propnestrealty.in</p></div>
+    <div class="cinfo"><div class="cinfo-icon">⏰</div><h4>Hours</h4><p>Mon–Sat: 9 AM – 7 PM<br>Sun: 10 AM – 3 PM</p></div>
+  </div>
+  <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Our agent will call you within 24 hours.')">
+    <input type="text" placeholder="Your Name" required />
+    <input type="tel" placeholder="Phone Number" required />
+    <select><option>Buy</option><option>Sell</option><option>Rent</option><option>Invest</option></select>
+    <input type="text" placeholder="Budget / Property Type" />
+    <textarea placeholder="Message or specific requirements…"></textarea>
+    <button type="submit">Send Enquiry</button>
+  </form>
+</section>
+
+<footer>
+  <p>&copy; 2026 <span>PropNest Realty</span>. All rights reserved. RERA Reg. No. RERA/AGT/2008/DL-042</p>
+</footer>
+
+</body>
+</html>
